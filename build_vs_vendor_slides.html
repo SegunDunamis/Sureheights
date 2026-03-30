@@ -1,0 +1,213 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans); }
+  .slide { padding: 2.5rem; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .slide:last-child { border-bottom: none; }
+  .slide-label { font-size: 11px; color: var(--color-text-tertiary); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .slide-title { font-size: 22px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 0.35rem; }
+  .slide-sub { font-size: 14px; color: var(--color-text-secondary); margin-bottom: 1.75rem; line-height: 1.5; }
+  .tag { display: inline-block; font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 500; margin-bottom: 1.5rem; }
+  .tag-warn { background: #FAEEDA; color: #854F0B; }
+  .tag-info { background: #E6F1FB; color: #185FA5; }
+  .tag-ok { background: #EAF3DE; color: #3B6D11; }
+
+  /* Capacity block */
+  .capacity-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; margin-bottom: 1.5rem; }
+  .cap-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 1rem; }
+  .cap-label { font-size: 11px; color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.4rem; }
+  .cap-val { font-size: 15px; font-weight: 500; color: var(--color-text-primary); }
+  .cap-sub { font-size: 12px; color: var(--color-text-secondary); margin-top: 3px; line-height: 1.4; }
+
+  .timeline-bar { display: flex; gap: 0; border-radius: var(--border-radius-md); overflow: hidden; height: 32px; margin-bottom: 0.4rem; }
+  .tbar { display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; }
+  .tbar-busy { background: #F7C1C1; color: #A32D2D; flex: 6; }
+  .tbar-avail { background: #C0DD97; color: #3B6D11; flex: 4; }
+  .tbar-coop { background: #B5D4F4; color: #185FA5; flex: 4; }
+  .tbar-legend { display: flex; gap: 1rem; font-size: 12px; color: var(--color-text-secondary); flex-wrap: wrap; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 4px; vertical-align: middle; }
+
+  /* Comparison cards */
+  .compare-grid { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 16px; margin-bottom: 1.5rem; }
+  .opt-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1.25rem; }
+  .opt-card.recommended { border: 2px solid #378ADD; }
+  .opt-head { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; }
+  .badge { font-size: 11px; padding: 2px 9px; border-radius: 20px; font-weight: 500; }
+  .badge-blue { background: #E6F1FB; color: #185FA5; }
+  .pro-con-row { display: flex; flex-direction: column; gap: 6px; }
+  .pc-item { display: flex; gap: 8px; font-size: 13px; line-height: 1.4; }
+  .pc-icon { font-size: 13px; width: 16px; flex-shrink: 0; margin-top: 1px; }
+  .pc-text-good { color: var(--color-text-primary); }
+  .pc-text-bad { color: var(--color-text-secondary); }
+  .pc-divider { height: 0.5px; background: var(--color-border-tertiary); margin: 0.75rem 0; }
+  .metric-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--color-text-secondary); margin-top: 0.75rem; padding-top: 0.75rem; border-top: 0.5px solid var(--color-border-tertiary); }
+  .metric-val { font-weight: 500; color: var(--color-text-primary); }
+
+  /* Recommendation */
+  .rec-block { background: var(--color-background-secondary); border-radius: var(--border-radius-lg); padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; }
+  .rec-title { font-size: 15px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 1rem; }
+  .reason-list { display: flex; flex-direction: column; gap: 10px; }
+  .reason-item { display: flex; gap: 12px; align-items: flex-start; }
+  .reason-num { width: 22px; height: 22px; border-radius: 50%; background: #378ADD; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; flex-shrink: 0; margin-top: 1px; }
+  .reason-text { font-size: 13px; color: var(--color-text-primary); line-height: 1.5; }
+  .reason-text span { color: var(--color-text-secondary); }
+
+  /* Execution model */
+  .exec-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 10px; }
+  .exec-phase { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 1rem; }
+  .exec-phase-label { font-size: 11px; color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.5rem; }
+  .exec-phase-title { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 0.5rem; }
+  .exec-list { font-size: 12px; color: var(--color-text-secondary); line-height: 1.6; }
+  .exec-list li { margin-left: 14px; }
+
+  @media (max-width: 520px) {
+    .compare-grid, .capacity-grid, .exec-grid { grid-template-columns: 1fr; }
+    .slide { padding: 1.5rem; }
+  }
+</style>
+
+<div class="slide">
+  <div class="slide-label">Slide 1 of 2</div>
+  <div class="slide-title">Current capacity vs. what this project needs</div>
+  <div class="slide-sub">Greenpole's internal team is fully committed for the next 6–8 weeks — making in-house delivery of the cooperative module a high-risk path.</div>
+
+  <div class="capacity-grid">
+    <div class="cap-card">
+      <div class="cap-label">Team size</div>
+      <div class="cap-val">3 engineers</div>
+      <div class="cap-sub">2 backend · 1 frontend</div>
+    </div>
+    <div class="cap-card">
+      <div class="cap-label">Committed until</div>
+      <div class="cap-val">~8 weeks out</div>
+      <div class="cap-sub">Payments (2w) + EDMMS (4w) + client stabilisation (2m)</div>
+    </div>
+    <div class="cap-card">
+      <div class="cap-label">Effective availability</div>
+      <div class="cap-val" style="color: #A32D2D;">Near zero</div>
+      <div class="cap-sub">Context-switching will delay all current commitments</div>
+    </div>
+  </div>
+
+  <div style="margin-bottom: 0.4rem; font-size: 12px; color: var(--color-text-secondary);">Realistic internal delivery timeline for cooperative module</div>
+  <div class="timeline-bar">
+    <div class="tbar tbar-busy">Current commitments (6–8 wks)</div>
+    <div class="tbar tbar-coop">Coop module build (est. 4–6 mo)</div>
+  </div>
+  <div class="tbar-legend">
+    <span><span class="dot" style="background:#F7C1C1;"></span>Blocked — existing roadmap</span>
+    <span><span class="dot" style="background:#B5D4F4;"></span>Cooperative module (in-house est.)</span>
+  </div>
+
+  <div style="margin-top: 1.5rem; padding: 1rem 1.25rem; border-radius: var(--border-radius-md); border-left: 3px solid #E24B4A; background: var(--color-background-secondary);">
+    <div style="font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px;">Key risk</div>
+    <div style="font-size: 13px; color: var(--color-text-secondary); line-height: 1.5;">Building in-house means choosing between the cooperative module and the payments + EDMMS roadmap. There is not enough capacity to do both without slippage on at least one critical track.</div>
+  </div>
+</div>
+
+<div class="slide">
+  <div class="slide-label">Slide 2 of 2</div>
+  <div class="slide-title">Build in-house vs. vendor-led — recommendation</div>
+  <div class="slide-sub">Evaluating the two paths against speed, cost, and strategic impact.</div>
+
+  <div class="compare-grid">
+    <div class="opt-card">
+      <div class="opt-head">Build in-house</div>
+      <div class="pro-con-row">
+        <div class="pc-item"><div class="pc-icon" style="color:#639922;">+</div><div class="pc-text-good">Full architectural control</div></div>
+        <div class="pc-item"><div class="pc-icon" style="color:#639922;">+</div><div class="pc-text-good">No upfront vendor cost</div></div>
+      </div>
+      <div class="pc-divider"></div>
+      <div class="pro-con-row">
+        <div class="pc-item"><div class="pc-icon" style="color:#A32D2D;">−</div><div class="pc-text-bad">Delays payments + EDMMS delivery</div></div>
+        <div class="pc-item"><div class="pc-icon" style="color:#A32D2D;">−</div><div class="pc-text-bad">Launch slips 3–4 months minimum</div></div>
+        <div class="pc-item"><div class="pc-icon" style="color:#A32D2D;">−</div><div class="pc-text-bad">High execution risk with 3-person team</div></div>
+        <div class="pc-item"><div class="pc-icon" style="color:#A32D2D;">−</div><div class="pc-text-bad">Lost first-mover advantage in market</div></div>
+      </div>
+      <div class="metric-row">
+        <span>Estimated delivery</span><span class="metric-val">4–6 months</span>
+      </div>
+      <div class="metric-row" style="border-top: none; padding-top: 0; margin-top: 4px;">
+        <span>Roadmap disruption</span><span class="metric-val" style="color:#A32D2D;">High</span>
+      </div>
+    </div>
+
+    <div class="opt-card recommended">
+      <div class="opt-head">
+        Vendor-led (One234Tech)
+        <span class="badge badge-blue">Recommended</span>
+      </div>
+      <div class="pro-con-row">
+        <div class="pc-item"><div class="pc-icon" style="color:#639922;">+</div><div class="pc-text-good">Fastest path to market — ~2 months</div></div>
+        <div class="pc-item"><div class="pc-icon" style="color:#639922;">+</div><div class="pc-text-good">Zero disruption to core roadmap</div></div>
+        <div class="pc-item"><div class="pc-icon" style="color:#639922;">+</div><div class="pc-text-good">Dedicated full-stack team + PM + QA</div></div>
+        <div class="pc-item"><div class="pc-icon" style="color:#639922;">+</div><div class="pc-text-good">Greenpole team retains oversight</div></div>
+        <div class="pc-item"><div class="pc-icon" style="color:#639922;">+</div><div class="pc-text-good">Internal takeover planned post-launch</div></div>
+      </div>
+      <div class="pc-divider"></div>
+      <div class="pro-con-row">
+        <div class="pc-item"><div class="pc-icon" style="color:#A32D2D;">−</div><div class="pc-text-bad">Upfront cost: ₦20M–₦25M</div></div>
+        <div class="pc-item"><div class="pc-icon" style="color:#A32D2D;">−</div><div class="pc-text-bad">Requires active quality oversight</div></div>
+      </div>
+      <div class="metric-row">
+        <span>Estimated delivery</span><span class="metric-val" style="color:#185FA5;">~2 months</span>
+      </div>
+      <div class="metric-row" style="border-top: none; padding-top: 0; margin-top: 4px;">
+        <span>Roadmap disruption</span><span class="metric-val" style="color:#3B6D11;">None</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="rec-block">
+    <div class="rec-title">Why vendor-led wins on this decision</div>
+    <div class="reason-list">
+      <div class="reason-item">
+        <div class="reason-num">1</div>
+        <div class="reason-text">Speed beats cost here — <span>a 3–4 month slip to market is a larger loss than ₦20M in a new revenue vertical.</span></div>
+      </div>
+      <div class="reason-item">
+        <div class="reason-num">2</div>
+        <div class="reason-text">Payments + EDMMS are foundational — <span>they cannot slip. The internal team must stay focused on them.</span></div>
+      </div>
+      <div class="reason-item">
+        <div class="reason-num">3</div>
+        <div class="reason-text">Parallelisation wins — <span>vendor builds the new vertical while Greenpole stabilises the core platform.</span></div>
+      </div>
+      <div class="reason-item">
+        <div class="reason-num">4</div>
+        <div class="reason-text">Internal team stays involved — <span>architecture oversight + integration ownership, with gradual takeover post-launch.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 0.75rem;">Suggested execution model</div>
+  <div class="exec-grid">
+    <div class="exec-phase">
+      <div class="exec-phase-label">Months 1–2</div>
+      <div class="exec-phase-title">Vendor builds V1</div>
+      <ul class="exec-list">
+        <li>One234Tech leads full delivery</li>
+        <li>Greenpole provides architecture sign-off</li>
+        <li>Bi-weekly progress reviews</li>
+      </ul>
+    </div>
+    <div class="exec-phase">
+      <div class="exec-phase-label">Parallel track</div>
+      <div class="exec-phase-title">Internal team — core roadmap</div>
+      <ul class="exec-list">
+        <li>Complete Payments integration</li>
+        <li>Complete EDMMS integration</li>
+        <li>Client stabilisation continues</li>
+      </ul>
+    </div>
+    <div class="exec-phase">
+      <div class="exec-phase-label">Post-launch</div>
+      <div class="exec-phase-title">Gradual internal takeover</div>
+      <ul class="exec-list">
+        <li>Greenpole team inherits codebase</li>
+        <li>Extend + optimise the module</li>
+        <li>Own the platform long-term</li>
+      </ul>
+    </div>
+  </div>
+</div>

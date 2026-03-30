@@ -196,9 +196,10 @@ footer {
   position:relative; z-index:2;
   padding:120px 8% 100px;
   max-width:720px;
+  text-align:center; margin:0 auto;
 }
 .hero-eyebrow {
-  display:flex; align-items:center; gap:14px; margin-bottom:28px;
+  display:flex; align-items:center; justify-content:center; gap:14px; margin-bottom:28px;
   animation:fadeSlideUp .8s ease both;
 }
 .hero-eyebrow-line { width:40px; height:1px; background:var(--green-bright); }
@@ -206,16 +207,17 @@ footer {
 .hero-headline {
   font-family:'Cormorant Garamond',serif;
   font-size:clamp(3rem,5.5vw,5.4rem);
-  font-weight:300; line-height:1.1; color:#fff; margin-bottom:22px;
+  font-weight:700; line-height:1.1; color:#fff; margin-bottom:22px;
   animation:fadeSlideUp .9s .15s ease both;
 }
 .hero-headline em { font-style:italic; color:var(--gold-light); display:block; }
 .hero-sub {
   font-size:1.05rem; line-height:1.82; color:rgba(255,255,255,.55);
-  margin-bottom:44px; font-weight:300; max-width:520px;
+  margin-bottom:44px; font-weight:400; max-width:520px;
+  margin-left:auto; margin-right:auto;
   animation:fadeSlideUp .9s .3s ease both;
 }
-.hero-actions { display:flex; gap:14px; flex-wrap:wrap; animation:fadeSlideUp .9s .45s ease both; }
+.hero-actions { display:flex; gap:14px; flex-wrap:wrap; justify-content:center; animation:fadeSlideUp .9s .45s ease both; }
 .hero-stats {
   margin-top:64px; display:flex; gap:48px; flex-wrap:wrap;
   padding-top:48px; border-top:1px solid rgba(255,255,255,.1);
