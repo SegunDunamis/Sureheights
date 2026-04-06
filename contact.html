@@ -489,7 +489,7 @@ document.getElementById('consult-form').addEventListener('submit', async functio
   
   // Try Formspree or fallback to mailto
   try {
-    const res = await fetch('https://formspree.io/f/sureheightsglobal@gmail.com', {
+    const res = await fetch('https://formspree.io/f/xqegwdab', {
       method: 'POST',
       headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
       body: JSON.stringify({
@@ -498,9 +498,12 @@ document.getElementById('consult-form').addEventListener('submit', async functio
         ...data
       })
     });
-    // Either way, show success
-    document.getElementById('consult-form').style.display = 'none';
-    document.getElementById('form-success').style.display = 'block';
+    if (res.ok) {
+      document.getElementById('consult-form').style.display = 'none';
+      document.getElementById('form-success').style.display = 'block';
+    } else {
+      throw new Error('Formspree error');
+    }
   } catch(err) {
     // Fallback: open mail client
     window.location.href = `mailto:sureheightsglobal@gmail.com?subject=${subject}&body=${body}`;
